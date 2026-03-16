@@ -23,6 +23,7 @@ const data = {
   contact: {
     email: "omarsamiir2003@gmail.com",
     phone: "+20 111 615 9571",
+    whatsapp: "https://wa.me/201116159571",
     location: "Dar Masr El Shrouk, Egypt",
     github: "https://github.com/Osamir60",
     linkedin: "https://www.linkedin.com/in/omar-samir-810b13236?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
@@ -46,14 +47,14 @@ const data = {
       tag: "Bash • Git",
       desc: "Developed a lightweight DBMS using Bash scripting to perform CRUD operations on directories and files, simulating databases and tables.",
       link: "#",
-      icon: <Terminal size={24} color="#60a5fa" />
+      icon: <Terminal size={24} color="#e0e0e0" />
     },
     {
       name: "Crowd Funding Console",
       tag: "Python • Hashing",
       desc: "Built a console-based application to manage crowdfunding projects with full CRUD functionality and password hashing.",
       link: "#",
-      icon: <Database size={24} color="#c084fc" />
+      icon: <Database size={24} color="#e0e0e0" />
     },
   ],
   skills: [
@@ -149,8 +150,8 @@ export default function App() {
         position: 'fixed',
         top: 0, left: 0, right: 0, bottom: 0,
         background: `
-          radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
-          radial-gradient(circle at 85% 30%, rgba(147, 51, 234, 0.15), transparent 25%)
+          radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.03), transparent 25%),
+          radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.02), transparent 25%)
         `,
         zIndex: -1,
         pointerEvents: 'none'
@@ -275,8 +276,8 @@ export default function App() {
             <a href={data.contact.linkedin} target="_blank" rel="noreferrer" style={btnStyle('secondary')}>
               <Linkedin size={18} /> LinkedIn
             </a>
-            <a href={`mailto:${data.contact.email}`} style={btnStyle('ghost')}>
-              <Mail size={18} /> Contact Me
+            <a href={data.contact.whatsapp} target="_blank" rel="noreferrer" style={btnStyle('ghost')}>
+              <Phone size={18} /> Contact Me
             </a>
           </div>
 
@@ -293,7 +294,7 @@ export default function App() {
               <GlassCard key={i} delay={i * 100}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
                   <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                    <div style={{ padding: '12px', background: 'rgba(59,130,246,0.1)', borderRadius: '12px', color: 'var(--accent-color)' }}>
+                    <div style={{ padding: '12px', background: 'rgba(255,255,255,0.05)', borderRadius: '12px', color: 'var(--text-primary)' }}>
                       {exp.icon}
                     </div>
                     <div>
@@ -342,7 +343,7 @@ export default function App() {
             {data.skills.map((skillGroup, i) => (
               <GlassCard key={i} delay={i * 100}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-                  <div style={{ color: 'var(--text-secondary)' }}>{skillGroup.icon}</div>
+                  <div style={{ color: 'var(--text-primary)' }}>{skillGroup.icon}</div>
                   <h3 style={{ fontSize: '1.1rem', margin: 0, fontWeight: 600, color: 'var(--text-primary)' }}>{skillGroup.category}</h3>
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
@@ -402,9 +403,9 @@ const btnStyle = (variant) => {
   };
   if (variant === 'secondary') return {
     ...base,
-    background: 'rgba(59, 130, 246, 0.1)',
-    color: 'var(--accent-color)',
-    border: '1px solid rgba(59, 130, 246, 0.2)'
+    background: 'rgba(255, 255, 255, 0.05)',
+    color: 'var(--text-primary)',
+    border: '1px solid rgba(255, 255, 255, 0.1)'
   };
   return {
     ...base,
