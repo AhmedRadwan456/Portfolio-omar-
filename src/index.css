@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #111111;
-  --card-bg: rgba(255, 255, 255, 0.03);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --text-primary: #ffffff;
-  --text-secondary: #a1a1aa;
-  --accent-color: #3b82f6;
-  --accent-glow: rgba(59, 130, 246, 0.5);
+  --bg-primary: #0f172a;      /* Lighter, navy/slate blue base instead of pure black */
+  --bg-secondary: #1e293b;    /* Slightly lighter contrast color */
+  --card-bg: rgba(255, 255, 255, 0.05); /* Slightly more opaque cards */
+  --card-border: rgba(255, 255, 255, 0.1);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --accent-color: #60a5fa;    /* Brighter blue accent */
+  --accent-glow: rgba(96, 165, 250, 0.4);
 }
 
 * {

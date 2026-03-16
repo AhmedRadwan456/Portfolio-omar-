@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { 
-  Github, 
-  Linkedin, 
-  Mail, 
-  MapPin, 
-  Phone, 
-  Terminal, 
-  Server, 
+import {
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+  Terminal,
+  Server,
   Database,
   Briefcase,
   ExternalLink,
@@ -15,7 +15,6 @@ import {
   X
 } from "lucide-react";
 
-// --- DATA ---
 const data = {
   name: "Omar Samir Mahmoud",
   title: "DevOps Engineer",
@@ -58,9 +57,9 @@ const data = {
     },
   ],
   skills: [
-    { category: "Cloud & Containers", items: ["AWS", "Docker", "Kubernetes", "OpenShift"], icon: <Server size={20}/> },
-    { category: "Automation & CI/CD", items: ["Jenkins", "Terraform", "Ansible", "Git"], icon: <Terminal size={20}/> },
-    { category: "OS & Scripting", items: ["Linux Admin", "Bash", "Python"], icon: <Database size={20}/> },
+    { category: "Cloud & Containers", items: ["AWS", "Docker", "Kubernetes", "OpenShift"], icon: <Server size={20} /> },
+    { category: "Automation & CI/CD", items: ["Jenkins", "Terraform", "Ansible", "Git"], icon: <Terminal size={20} /> },
+    { category: "OS & Scripting", items: ["Linux Admin", "Bash", "Python"], icon: <Database size={20} /> },
   ],
   education: {
     degree: "B.Sc. in Computer Sciences",
@@ -70,15 +69,14 @@ const data = {
   },
 };
 
-// --- COMPONENTS ---
 
 const GlassCard = ({ children, delay = "0" }) => {
   const [isHovered, setIsHovered] = useState(false);
-  
+
   return (
-    <div 
-      className="animate-fade-in-up" 
-      style={{ 
+    <div
+      className="animate-fade-in-up"
+      style={{
         animationDelay: `${delay}ms`,
         background: 'var(--card-bg)',
         backdropFilter: 'blur(12px)',
@@ -121,10 +119,10 @@ export default function App() {
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     const handleResize = () => setWindowWidth(window.innerWidth);
-    
+
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleResize);
-    
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
@@ -145,7 +143,7 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', position: 'relative' }}>
-      
+
       {/* Dynamic Background */}
       <div style={{
         position: 'fixed',
@@ -156,7 +154,7 @@ export default function App() {
         `,
         zIndex: -1,
         pointerEvents: 'none'
-      }}/>
+      }} />
 
       {/* Navigation */}
       <nav style={{
@@ -170,16 +168,16 @@ export default function App() {
           <div style={{ fontWeight: 800, fontSize: '1.2rem', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
             Omar<span style={{ color: 'var(--accent-color)' }}>.</span>
           </div>
-          
+
           {/* Desktop Nav */}
           {!isMobile && (
             <div style={{ display: 'flex', gap: '32px' }}>
               {navLinks.map((link) => (
-                <button 
+                <button
                   key={link}
                   onClick={() => scrollTo(link.toLowerCase())}
-                  style={{ 
-                    background: 'none', border: 'none', color: 'var(--text-secondary)', 
+                  style={{
+                    background: 'none', border: 'none', color: 'var(--text-secondary)',
                     cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s'
                   }}
                   onMouseEnter={(e) => e.target.style.color = 'var(--text-primary)'}
@@ -191,17 +189,17 @@ export default function App() {
             </div>
           )}
 
-           {/* Mobile Menu Toggle */}
-           {isMobile && (
-             <button 
+          {/* Mobile Menu Toggle */}
+          {isMobile && (
+            <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer' }}
             >
               {isMobileMenuOpen ? <X /> : <Menu />}
             </button>
-           )}
+          )}
         </div>
-        
+
         {/* Mobile Dropdown */}
         {isMobile && isMobileMenuOpen && (
           <div style={{
@@ -212,31 +210,31 @@ export default function App() {
             padding: '16px 24px',
             display: 'flex', flexDirection: 'column', gap: '16px'
           }}>
-             {navLinks.map((link) => (
-                <button 
-                  key={link}
-                  onClick={() => scrollTo(link.toLowerCase())}
-                  style={{ 
-                    background: 'none', border: 'none', color: 'var(--text-primary)', 
-                    cursor: 'pointer', fontSize: '1.1rem', fontWeight: 500, textAlign: 'left',
-                    padding: '8px 0'
-                  }}
-                >
-                  {link}
-                </button>
-              ))}
+            {navLinks.map((link) => (
+              <button
+                key={link}
+                onClick={() => scrollTo(link.toLowerCase())}
+                style={{
+                  background: 'none', border: 'none', color: 'var(--text-primary)',
+                  cursor: 'pointer', fontSize: '1.1rem', fontWeight: 500, textAlign: 'left',
+                  padding: '8px 0'
+                }}
+              >
+                {link}
+              </button>
+            ))}
           </div>
         )}
       </nav>
 
-      <main style={{ maxWidth: '1000px', margin: '0 auto', padding: '120px 24px 60px' }}>
-        
+      <main style={{ maxWidth: '1000px', margin: '0 auto', padding: '100px 24px 40px' }}>
+
         {/* HERO SECTION */}
-        <section id="about" style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative' }}>
-          <div className="animate-fade-in-up" style={{ animationDelay: '100ms', display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap', marginBottom: '32px' }}>
-             <img 
-              src="/omar samir.jpeg" 
-              alt="Omar Samir" 
+        <section id="about" style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative' }}>
+          <div className="animate-fade-in-up" style={{ animationDelay: '100ms', display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap', marginBottom: '24px' }}>
+            <img
+              src="/omar samir.jpeg"
+              alt="Omar Samir"
               style={{
                 width: '120px', height: '120px', borderRadius: '50%', objectFit: 'cover',
                 border: '2px solid rgba(255,255,255,0.1)',
@@ -245,27 +243,27 @@ export default function App() {
               }}
             />
             <div>
-              <div style={{ 
-                color: 'var(--accent-color)', fontWeight: 600, letterSpacing: '2px', 
-                textTransform: 'uppercase', fontSize: '0.85rem', marginBottom: '8px' 
+              <div style={{
+                color: 'var(--accent-color)', fontWeight: 600, letterSpacing: '2px',
+                textTransform: 'uppercase', fontSize: '0.85rem', marginBottom: '8px'
               }}>
                 {data.title}
               </div>
-              <h1 style={{ 
-                fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: 800, lineHeight: 1.1, 
+              <h1 style={{
+                fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: 800, lineHeight: 1.1,
                 letterSpacing: '-1px', margin: 0,
                 background: 'linear-gradient(to right, #ffffff, #a1a1aa)',
                 WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
                 color: 'transparent'
               }}>
-                Building robust <br/>cloud architectures.
+                Building robust <br />cloud architectures.
               </h1>
             </div>
           </div>
 
-          <p className="animate-fade-in-up" style={{ 
-            animationDelay: '200ms', fontSize: '1.2rem', color: 'var(--text-secondary)', 
-            maxWidth: '600px', lineHeight: 1.6, marginBottom: '40px' 
+          <p className="animate-fade-in-up" style={{
+            animationDelay: '200ms', fontSize: '1.2rem', color: 'var(--text-secondary)',
+            maxWidth: '600px', lineHeight: 1.6, marginBottom: '40px'
           }}>
             {data.summary}
           </p>
@@ -288,9 +286,9 @@ export default function App() {
         </section>
 
         {/* EXPERIENCE SECTION */}
-        <section id="experience" style={{ padding: '80px 0' }}>
+        <section id="experience" style={{ padding: '60px 0' }}>
           <h2 style={sectionHeaderStyle(isMobile)}>Experience & Leadership</h2>
-          <div style={{ display: 'grid', gap: '24px' }}>
+          <div style={{ display: 'grid', gap: '20px' }}>
             {data.experience.map((exp, i) => (
               <GlassCard key={i} delay={i * 100}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
@@ -314,9 +312,9 @@ export default function App() {
         </section>
 
         {/* PROJECTS SECTION */}
-        <section id="projects" style={{ padding: '80px 0' }}>
+        <section id="projects" style={{ padding: '60px 0' }}>
           <h2 style={sectionHeaderStyle(isMobile)}>Featured Projects</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
             {data.projects.map((project, i) => (
               <GlassCard key={i} delay={i * 100}>
                 <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -338,9 +336,9 @@ export default function App() {
         </section>
 
         {/* SKILLS SECTION */}
-        <section id="skills" style={{ padding: '80px 0' }}>
+        <section id="skills" style={{ padding: '60px 0' }}>
           <h2 style={sectionHeaderStyle(isMobile)}>Technical Arsenal</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
             {data.skills.map((skillGroup, i) => (
               <GlassCard key={i} delay={i * 100}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
@@ -356,14 +354,14 @@ export default function App() {
         </section>
 
         {/* FOOTER / CONTACT TRAY */}
-        <footer style={{ 
+        <footer style={{
           marginTop: '80px', paddingTop: '40px', borderTop: '1px solid rgba(255,255,255,0.05)',
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px'
         }}>
           <div style={{ display: 'flex', gap: '24px', color: 'var(--text-secondary)', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><MapPin size={16}/> {data.contact.location}</div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Phone size={16}/> {data.contact.phone}</div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Mail size={16}/> {data.contact.email}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><MapPin size={16} /> {data.contact.location}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Phone size={16} /> {data.contact.phone}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Mail size={16} /> {data.contact.email}</div>
           </div>
           <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.85rem', textAlign: 'center' }}>
             © {new Date().getFullYear()} {data.name}. Built with React & Vite.
@@ -377,13 +375,13 @@ export default function App() {
 
 // Helper styles
 const sectionHeaderStyle = (isMobile) => ({
-  fontSize: isMobile ? '1.75rem' : '2rem',
+  fontSize: isMobile ? '1.5rem' : '1.8rem',
   fontWeight: 700,
   letterSpacing: '-0.5px',
-  marginBottom: '40px',
+  marginBottom: '28px',
   display: 'flex',
   alignItems: 'center',
-  gap: '16px',
+  gap: '12px',
   color: 'var(--text-primary)'
 });
 
@@ -395,14 +393,14 @@ const btnStyle = (variant) => {
     textDecoration: 'none', transition: 'all 0.2s ease',
     cursor: 'pointer'
   };
-  
-  if(variant === 'primary') return {
+
+  if (variant === 'primary') return {
     ...base,
     background: 'var(--text-primary)',
     color: 'var(--bg-primary)',
     border: '1px solid transparent'
   };
-  if(variant === 'secondary') return {
+  if (variant === 'secondary') return {
     ...base,
     background: 'rgba(59, 130, 246, 0.1)',
     color: 'var(--accent-color)',
