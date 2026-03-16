@@ -186,6 +186,7 @@ export default function App() {
         <div style={styles.container}>
           <section style={styles.hero}>
             <div>
+              <img src="/omar samir.jpeg" alt="Omar Samir" style={styles.profileImage} />
               <p style={styles.pill}>{data.title}</p>
               <h1 style={styles.h1}>
                 {data.name}{" "}
@@ -504,6 +505,14 @@ const styles = {
   navCta: { display: "flex", gap: 10 },
   main: { paddingBottom: 30 },
   hero: { display: "grid", gridTemplateColumns: "1.6fr .9fr", gap: 22, padding: "44px 0 10px" },
+  profileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: "50%",
+    objectFit: "cover",
+    border: `2px solid ${stylesVars.line}`,
+    marginBottom: 16,
+  },
   pill: {
     display: "inline-flex",
     padding: "8px 12px",
