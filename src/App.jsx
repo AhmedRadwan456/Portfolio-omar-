@@ -1,24 +1,33 @@
-import { useMemo, useState } from "react";
+import { useState, useEffect } from "react";
+import { 
+  Github, 
+  Linkedin, 
+  Mail, 
+  MapPin, 
+  Phone, 
+  Terminal, 
+  Server, 
+  Database,
+  Briefcase,
+  ExternalLink,
+  ChevronDown,
+  Menu,
+  X
+} from "lucide-react";
 
+// --- DATA ---
 const data = {
   name: "Omar Samir Mahmoud",
   title: "DevOps Engineer",
   summary:
-    "DevOps-focused engineer with hands-on projects in scripting, automation, and containerized workflows. Interested in CI/CD, Kubernetes, IaC, and cloud platforms.",
+    "DevOps-focused engineer with hands-on projects in scripting, automation, and containerized workflows. Building reliable, scalable infrastructure from code to production.",
   contact: {
     email: "omarsamiir2003@gmail.com",
     phone: "+20 111 615 9571",
     location: "Dar Masr El Shrouk, Egypt",
-    github: "#", // حط لينك GitHub هنا
-    linkedin: "#", // حط لينك LinkedIn هنا
+    github: "https://github.com/Osamir60",
+    linkedin: "https://www.linkedin.com/in/omar-samir-810b13236?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
   },
-  snapshot: [
-    { k: "Cloud", v: "AWS, Basic GCP" },
-    { k: "Containers", v: "Docker, Kubernetes, OpenShift" },
-    { k: "CI/CD", v: "Jenkins" },
-    { k: "IaC", v: "Terraform, Ansible" },
-    { k: "Scripting", v: "Bash, Python" },
-  ],
   experience: [
     {
       role: "GDG On Campus – Future Academy Chapter Leader",
@@ -29,617 +38,380 @@ const data = {
         "Coordinated with Google Developers community to deliver high-impact sessions.",
         "Mentored peers in software development, cloud technologies, and career growth.",
       ],
+      icon: <Briefcase size={20} />
     },
   ],
   projects: [
     {
-      name: "Lightweight DBMS (Bash)",
+      name: "Lightweight DBMS",
       tag: "Bash • Git",
-      desc:
-        "Developed a lightweight DBMS using Bash scripting to perform CRUD operations on directories and files, simulating databases and tables.",
-      bullets: [
-        "Menu-driven workflow for usability and efficiency.",
-        "CRUD operations for “databases” and “tables”.",
-      ],
-      repo: "#", // حط لينك الريبو
+      desc: "Developed a lightweight DBMS using Bash scripting to perform CRUD operations on directories and files, simulating databases and tables.",
+      link: "#",
+      icon: <Terminal size={24} color="#60a5fa" />
     },
     {
-      name: "Crowd Funding Console App (Python)",
+      name: "Crowd Funding Console",
       tag: "Python • Hashing",
-      desc:
-        "Built a console-based application to manage crowdfunding projects with full CRUD functionality.",
-      bullets: [
-        "Authentication with password hashing.",
-        "Project filtering by creation date.",
-        "Structured data display using Tabulate.",
-      ],
-      repo: "#", // حط لينك الريبو
+      desc: "Built a console-based application to manage crowdfunding projects with full CRUD functionality and password hashing.",
+      link: "#",
+      icon: <Database size={24} color="#c084fc" />
     },
   ],
   skills: [
-    { title: "Cloud", items: ["AWS", "Basic GCP"] },
-    { title: "Containers & Orchestration", items: ["Docker", "Kubernetes", "OpenShift", "Containerization"] },
-    { title: "Automation & CI/CD", items: ["Jenkins", "Terraform", "Ansible", "Git & GitHub"] },
-    { title: "OS / Admin", items: ["Linux", "System Administration"] },
-    { title: "Programming", items: ["Python", "Bash"] },
-    { title: "Soft Skills", items: ["Communication", "Collaboration", "Time Management", "Adaptability", "Self-Learning", "Commitment"] },
+    { category: "Cloud & Containers", items: ["AWS", "Docker", "Kubernetes", "OpenShift"], icon: <Server size={20}/> },
+    { category: "Automation & CI/CD", items: ["Jenkins", "Terraform", "Ansible", "Git"], icon: <Terminal size={20}/> },
+    { category: "OS & Scripting", items: ["Linux Admin", "Bash", "Python"], icon: <Database size={20}/> },
   ],
   education: {
-    degree: "Bachelor of Sciences in Computer Sciences — Future Academy",
+    degree: "B.Sc. in Computer Sciences",
+    school: "Future Academy",
     time: "2022 – 2026",
     gpa: "2.8 / 4 (Very Good)",
   },
-  courses: {
-    devops: ["Senior Steps — DevOps Engineer", "Udemy — DevOps Engineer"],
-    linux: [
-      "Mahara Tech — Red Hat System Administration I (ITI)",
-      "Mahara Tech — Red Hat System Administration II (ITI)",
-      "ITI — Ubuntu Linux Essential",
-      "CISCO Networking Academy — Operating Systems Basics",
-    ],
-    languages: ["Arabic — Native", "English — Good"],
-  },
 };
 
-function Section({ id, title, subtitle, children }) {
+// --- COMPONENTS ---
+
+const GlassCard = ({ children, delay = "0" }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  
   return (
-    <section id={id} style={styles.section}>
-      <div style={styles.sectionHead}>
-        <h2 style={styles.h2}>{title}</h2>
-        {subtitle ? <p style={styles.muted}>{subtitle}</p> : null}
-      </div>
+    <div 
+      className="animate-fade-in-up" 
+      style={{ 
+        animationDelay: `${delay}ms`,
+        background: 'var(--card-bg)',
+        backdropFilter: 'blur(12px)',
+        border: '1px solid var(--card-border)',
+        borderRadius: '24px',
+        padding: '24px',
+        transition: 'all 0.3s ease',
+        transform: isHovered ? 'translateY(-5px)' : 'translateY(0)',
+        boxShadow: isHovered ? '0 10px 40px -10px rgba(59, 130, 246, 0.2)' : 'none'
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {children}
-    </section>
+    </div>
   );
-}
+};
 
-function Chip({ children, href }) {
-  const style = href ? styles.chipLink : styles.chip;
-  return href ? (
-    <a style={style} href={href} target="_blank" rel="noreferrer">
-      {children}
-    </a>
-  ) : (
-    <span style={style}>{children}</span>
-  );
-}
-
-function Card({ children }) {
-  return <div style={styles.card}>{children}</div>;
-}
-
-function Button({ children, href, variant = "primary", onClick, type }) {
-  const base = variant === "ghost" ? styles.btnGhost : styles.btn;
-  if (href) {
-    const isHash = href.startsWith("#");
-    return (
-      <a style={base} href={href} onClick={onClick} {...(isHash ? {} : { target: "_blank", rel: "noreferrer" })}>
-        {children}
-      </a>
-    );
-  }
-  return (
-    <button style={base} onClick={onClick} type={type || "button"}>
-      {children}
-    </button>
-  );
-}
+const Chip = ({ children }) => (
+  <span style={{
+    background: 'rgba(255,255,255,0.05)',
+    border: '1px solid rgba(255,255,255,0.1)',
+    borderRadius: '99px',
+    padding: '6px 14px',
+    fontSize: '0.85rem',
+    color: 'var(--text-secondary)',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '6px'
+  }}>
+    {children}
+  </span>
+);
 
 export default function App() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  const nav = useMemo(
-    () => [
-      ["about", "About"],
-      ["experience", "Experience"],
-      ["projects", "Projects"],
-      ["skills", "Skills"],
-      ["education", "Education"],
-      ["courses", "Courses"],
-      ["contact", "Contact"],
-    ],
-    []
-  );
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const isMobile = windowWidth < 768;
+
+  const scrollTo = (id) => {
+    setIsMobileMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const navLinks = ['About', 'Experience', 'Projects', 'Skills'];
 
   return (
-    <div style={styles.page}>
-      <header style={styles.header}>
-        <div style={styles.container}>
-          <div style={styles.nav}>
-            <a href="#top" style={styles.logo}>
-              Omar<span style={{ color: stylesVars.accent }}>.</span>
-            </a>
+    <div style={{ minHeight: '100vh', position: 'relative' }}>
+      
+      {/* Dynamic Background */}
+      <div style={{
+        position: 'fixed',
+        top: 0, left: 0, right: 0, bottom: 0,
+        background: `
+          radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
+          radial-gradient(circle at 85% 30%, rgba(147, 51, 234, 0.15), transparent 25%)
+        `,
+        zIndex: -1,
+        pointerEvents: 'none'
+      }}/>
 
-            <button
-              style={styles.navToggle}
-              onClick={() => setMenuOpen((v) => !v)}
-              aria-label="Toggle navigation"
-              aria-expanded={menuOpen}
-            >
-              ☰
-            </button>
-
-            <nav style={{ ...styles.navLinks, ...(menuOpen ? styles.navLinksOpen : {}) }}>
-              {nav.map(([id, label]) => (
-                <a
-                  key={id}
-                  href={`#${id}`}
-                  style={styles.navLink}
-                  onClick={() => setMenuOpen(false)}
+      {/* Navigation */}
+      <nav style={{
+        position: 'fixed', top: 0, width: '100%', zIndex: 50,
+        background: scrolled ? 'rgba(10, 10, 10, 0.8)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(12px)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(255,255,255,0.05)' : 'none',
+        transition: 'all 0.3s ease'
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '16px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ fontWeight: 800, fontSize: '1.2rem', letterSpacing: '-0.5px', color: 'var(--text-primary)' }}>
+            Omar<span style={{ color: 'var(--accent-color)' }}>.</span>
+          </div>
+          
+          {/* Desktop Nav */}
+          {!isMobile && (
+            <div style={{ display: 'flex', gap: '32px' }}>
+              {navLinks.map((link) => (
+                <button 
+                  key={link}
+                  onClick={() => scrollTo(link.toLowerCase())}
+                  style={{ 
+                    background: 'none', border: 'none', color: 'var(--text-secondary)', 
+                    cursor: 'pointer', fontSize: '0.9rem', fontWeight: 500, transition: 'color 0.2s'
+                  }}
+                  onMouseEnter={(e) => e.target.style.color = 'var(--text-primary)'}
+                  onMouseLeave={(e) => e.target.style.color = 'var(--text-secondary)'}
                 >
-                  {label}
-                </a>
+                  {link}
+                </button>
               ))}
-            </nav>
+            </div>
+          )}
 
-            <div style={styles.navCta}>
-              <Button href="#contact" variant="ghost">
-                Hire Me
-              </Button>
+           {/* Mobile Menu Toggle */}
+           {isMobile && (
+             <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer' }}
+            >
+              {isMobileMenuOpen ? <X /> : <Menu />}
+            </button>
+           )}
+        </div>
+        
+        {/* Mobile Dropdown */}
+        {isMobile && isMobileMenuOpen && (
+          <div style={{
+            position: 'absolute', top: '100%', left: 0, right: 0,
+            background: 'rgba(10, 10, 10, 0.95)',
+            backdropFilter: 'blur(12px)',
+            borderBottom: '1px solid rgba(255,255,255,0.1)',
+            padding: '16px 24px',
+            display: 'flex', flexDirection: 'column', gap: '16px'
+          }}>
+             {navLinks.map((link) => (
+                <button 
+                  key={link}
+                  onClick={() => scrollTo(link.toLowerCase())}
+                  style={{ 
+                    background: 'none', border: 'none', color: 'var(--text-primary)', 
+                    cursor: 'pointer', fontSize: '1.1rem', fontWeight: 500, textAlign: 'left',
+                    padding: '8px 0'
+                  }}
+                >
+                  {link}
+                </button>
+              ))}
+          </div>
+        )}
+      </nav>
+
+      <main style={{ maxWidth: '1000px', margin: '0 auto', padding: '120px 24px 60px' }}>
+        
+        {/* HERO SECTION */}
+        <section id="about" style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative' }}>
+          <div className="animate-fade-in-up" style={{ animationDelay: '100ms', display: 'flex', alignItems: 'center', gap: '24px', flexWrap: 'wrap', marginBottom: '32px' }}>
+             <img 
+              src="/omar samir.jpeg" 
+              alt="Omar Samir" 
+              style={{
+                width: '120px', height: '120px', borderRadius: '50%', objectFit: 'cover',
+                border: '2px solid rgba(255,255,255,0.1)',
+                boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+                animation: 'float 6s ease-in-out infinite'
+              }}
+            />
+            <div>
+              <div style={{ 
+                color: 'var(--accent-color)', fontWeight: 600, letterSpacing: '2px', 
+                textTransform: 'uppercase', fontSize: '0.85rem', marginBottom: '8px' 
+              }}>
+                {data.title}
+              </div>
+              <h1 style={{ 
+                fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: 800, lineHeight: 1.1, 
+                letterSpacing: '-1px', margin: 0,
+                background: 'linear-gradient(to right, #ffffff, #a1a1aa)',
+                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+                color: 'transparent'
+              }}>
+                Building robust <br/>cloud architectures.
+              </h1>
             </div>
           </div>
-        </div>
-      </header>
 
-      <main id="top" style={styles.main}>
-        {/* HERO */}
-        <div style={styles.container}>
-          <section style={styles.hero}>
-            <div>
-              <img src="/omar samir.jpeg" alt="Omar Samir" style={styles.profileImage} />
-              <p style={styles.pill}>{data.title}</p>
-              <h1 style={styles.h1}>
-                {data.name}{" "}
-                <span style={styles.h1Muted}>— building reliable, automated infrastructure.</span>
-              </h1>
-              <p style={styles.lead}>{data.summary}</p>
+          <p className="animate-fade-in-up" style={{ 
+            animationDelay: '200ms', fontSize: '1.2rem', color: 'var(--text-secondary)', 
+            maxWidth: '600px', lineHeight: 1.6, marginBottom: '40px' 
+          }}>
+            {data.summary}
+          </p>
 
-              <div style={styles.heroActions}>
-                <Button href="#projects">View Projects</Button>
-                <Button href="#contact" variant="ghost">
-                  Contact
-                </Button>
-              </div>
+          <div className="animate-fade-in-up" style={{ animationDelay: '300ms', display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+            <a href={data.contact.github} target="_blank" rel="noreferrer" style={btnStyle('primary')}>
+              <Github size={18} /> GitHub Profile
+            </a>
+            <a href={data.contact.linkedin} target="_blank" rel="noreferrer" style={btnStyle('secondary')}>
+              <Linkedin size={18} /> LinkedIn
+            </a>
+            <a href={`mailto:${data.contact.email}`} style={btnStyle('ghost')}>
+              <Mail size={18} /> Contact Me
+            </a>
+          </div>
 
-              <div style={styles.heroMeta}>
-                <a style={styles.meta} href={`mailto:${data.contact.email}`}>
-                  {data.contact.email}
-                </a>
-                <span style={styles.dot}>•</span>
-                <a style={styles.meta} href={`tel:${data.contact.phone.replace(/\s/g, "")}`}>
-                  {data.contact.phone}
-                </a>
-                <span style={styles.dot}>•</span>
-                <span style={styles.meta}>{data.contact.location}</span>
-              </div>
+          <div style={{ position: 'absolute', bottom: '10%', left: '50%', transform: 'translateX(-50%)', opacity: 0.5, animation: 'float 2s ease-in-out infinite' }}>
+            <ChevronDown size={24} color="white" />
+          </div>
+        </section>
 
-              <div style={styles.heroLinks}>
-                <Chip href={data.contact.github}>GitHub</Chip>
-                <Chip href={data.contact.linkedin}>LinkedIn</Chip>
-                <Chip href="#skills">Tech Stack</Chip>
-              </div>
-            </div>
-
-            <div>
-              <Card>
-                <h3 style={styles.h3}>Quick Snapshot</h3>
-                <ul style={styles.list}>
-                  {data.snapshot.map((s) => (
-                    <li key={s.k} style={styles.listItem}>
-                      <strong style={styles.strong}>{s.k}:</strong> {s.v}
-                    </li>
-                  ))}
-                </ul>
-                <div style={{ marginTop: 14 }}>
-                  <Button href="#contact">Let’s talk</Button>
-                </div>
-              </Card>
-            </div>
-          </section>
-
-          {/* ABOUT */}
-          <Section id="about" title="About" subtitle="Short intro based on your CV highlights.">
-            <div style={styles.grid2}>
-              <Card>
-                <h3 style={styles.h3}>Who I am</h3>
-                <p style={styles.p}>
-                  I’m a DevOps Engineer passionate about automation, cloud, and scalable infrastructure.
-                  I enjoy building reliable pipelines, managing containers, and writing scripts that simplify operations.
-                </p>
-              </Card>
-
-              <Card>
-                <h3 style={styles.h3}>Strengths</h3>
-                <ul style={styles.list}>
-                  <li style={styles.listItem}>Time management, communication, collaboration</li>
-                  <li style={styles.listItem}>Self-learning & adaptability</li>
-                  <li style={styles.listItem}>Commitment to clean, maintainable automation</li>
-                </ul>
-              </Card>
-            </div>
-          </Section>
-
-          {/* EXPERIENCE */}
-          <Section id="experience" title="Experience" subtitle="Leadership & community experience.">
-            <div style={styles.stack}>
-              {data.experience.map((x) => (
-                <div key={x.role} style={styles.timelineItem}>
-                  <div style={styles.timelineDot} />
-                  <Card>
-                    <div style={styles.rowBetween}>
-                      <h3 style={styles.h3}>{x.role}</h3>
-                      <span style={styles.tag}>{x.time}</span>
+        {/* EXPERIENCE SECTION */}
+        <section id="experience" style={{ padding: '80px 0' }}>
+          <h2 style={sectionHeaderStyle(isMobile)}>Experience & Leadership</h2>
+          <div style={{ display: 'grid', gap: '24px' }}>
+            {data.experience.map((exp, i) => (
+              <GlassCard key={i} delay={i * 100}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
+                  <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+                    <div style={{ padding: '12px', background: 'rgba(59,130,246,0.1)', borderRadius: '12px', color: 'var(--accent-color)' }}>
+                      {exp.icon}
                     </div>
-                    <p style={styles.muted}>{x.org}</p>
-                    <ul style={styles.list}>
-                      {x.bullets.map((b, i) => (
-                        <li key={i} style={styles.listItem}>
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                  </Card>
+                    <div>
+                      <h3 style={{ fontSize: '1.25rem', margin: '0 0 4px', fontWeight: 600, color: 'var(--text-primary)' }}>{exp.role}</h3>
+                      <p style={{ color: 'var(--text-secondary)', margin: 0 }}>{exp.org}</p>
+                    </div>
+                  </div>
+                  <Chip>{exp.time}</Chip>
                 </div>
-              ))}
-            </div>
-          </Section>
+                <ul style={{ marginTop: '24px', paddingLeft: '20px', color: 'var(--text-secondary)', lineHeight: 1.7, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {exp.bullets.map((bullet, idx) => <li key={idx}>{bullet}</li>)}
+                </ul>
+              </GlassCard>
+            ))}
+          </div>
+        </section>
 
-          {/* PROJECTS */}
-          <Section id="projects" title="Projects" subtitle="Selected projects (add real GitHub links).">
-            <div style={styles.grid2}>
-              {data.projects.map((p) => (
-                <Card key={p.name}>
-                  <div style={styles.rowBetween}>
-                    <h3 style={styles.h3}>{p.name}</h3>
-                    <span style={styles.tag}>{p.tag}</span>
-                  </div>
-                  <p style={styles.p}>{p.desc}</p>
-                  <ul style={styles.list}>
-                    {p.bullets.map((b, i) => (
-                      <li key={i} style={styles.listItem}>
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                  <div style={styles.rowBetween}>
-                    <a style={styles.link} href={p.repo} target="_blank" rel="noreferrer">
-                      Repo (add link)
+        {/* PROJECTS SECTION */}
+        <section id="projects" style={{ padding: '80px 0' }}>
+          <h2 style={sectionHeaderStyle(isMobile)}>Featured Projects</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
+            {data.projects.map((project, i) => (
+              <GlassCard key={i} delay={i * 100}>
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                  <div style={{ marginBottom: '20px' }}>{project.icon}</div>
+                  <h3 style={{ fontSize: '1.25rem', margin: '0 0 8px', fontWeight: 600, color: 'var(--text-primary)' }}>{project.name}</h3>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '24px', flex: 1 }}>
+                    {project.desc}
+                  </p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{project.tag}</span>
+                    <a href={project.link} target="_blank" rel="noreferrer" style={{ color: 'var(--accent-color)', display: 'flex', alignItems: 'center', gap: '4px', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 500 }}>
+                      View Code <ExternalLink size={14} />
                     </a>
-                    <span style={styles.mutedSmall}>Update links anytime</span>
                   </div>
-                </Card>
-              ))}
-            </div>
-          </Section>
+                </div>
+              </GlassCard>
+            ))}
+          </div>
+        </section>
 
-          {/* SKILLS */}
-          <Section id="skills" title="Skills" subtitle="Core technical stack and strengths.">
-            <div style={styles.grid3}>
-              {data.skills.map((g) => (
-                <Card key={g.title}>
-                  <h3 style={styles.h3}>{g.title}</h3>
-                  <div style={styles.chips}>
-                    {g.items.map((it) => (
-                      <Chip key={it}>{it}</Chip>
-                    ))}
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </Section>
+        {/* SKILLS SECTION */}
+        <section id="skills" style={{ padding: '80px 0' }}>
+          <h2 style={sectionHeaderStyle(isMobile)}>Technical Arsenal</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+            {data.skills.map((skillGroup, i) => (
+              <GlassCard key={i} delay={i * 100}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
+                  <div style={{ color: 'var(--text-secondary)' }}>{skillGroup.icon}</div>
+                  <h3 style={{ fontSize: '1.1rem', margin: 0, fontWeight: 600, color: 'var(--text-primary)' }}>{skillGroup.category}</h3>
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                  {skillGroup.items.map(item => <Chip key={item}>{item}</Chip>)}
+                </div>
+              </GlassCard>
+            ))}
+          </div>
+        </section>
 
-          {/* EDUCATION */}
-          <Section id="education" title="Education" subtitle="Academic background.">
-            <Card>
-              <div style={styles.rowBetween}>
-                <h3 style={styles.h3}>{data.education.degree}</h3>
-                <span style={styles.tag}>{data.education.time}</span>
-              </div>
-              <p style={styles.muted}>GPA: {data.education.gpa}</p>
-            </Card>
-          </Section>
+        {/* FOOTER / CONTACT TRAY */}
+        <footer style={{ 
+          marginTop: '80px', paddingTop: '40px', borderTop: '1px solid rgba(255,255,255,0.05)',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px'
+        }}>
+          <div style={{ display: 'flex', gap: '24px', color: 'var(--text-secondary)', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><MapPin size={16}/> {data.contact.location}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Phone size={16}/> {data.contact.phone}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Mail size={16}/> {data.contact.email}</div>
+          </div>
+          <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.85rem', textAlign: 'center' }}>
+            © {new Date().getFullYear()} {data.name}. Built with React & Vite.
+          </div>
+        </footer>
 
-          {/* COURSES */}
-          <Section id="courses" title="Courses" subtitle="Training and certifications.">
-            <div style={styles.grid2}>
-              <Card>
-                <h3 style={styles.h3}>DevOps</h3>
-                <ul style={styles.list}>
-                  {data.courses.devops.map((c) => (
-                    <li key={c} style={styles.listItem}>
-                      {c}
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-
-              <Card>
-                <h3 style={styles.h3}>Linux / Systems</h3>
-                <ul style={styles.list}>
-                  {data.courses.linux.map((c) => (
-                    <li key={c} style={styles.listItem}>
-                      {c}
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-
-              <Card>
-                <h3 style={styles.h3}>Languages</h3>
-                <ul style={styles.list}>
-                  {data.courses.languages.map((c) => (
-                    <li key={c} style={styles.listItem}>
-                      {c}
-                    </li>
-                  ))}
-                </ul>
-              </Card>
-            </div>
-          </Section>
-
-          {/* CONTACT */}
-          <Section id="contact" title="Contact" subtitle="Let’s connect.">
-            <div style={styles.grid2}>
-              <Card>
-                <h3 style={styles.h3}>Reach me</h3>
-                <ul style={styles.list}>
-                  <li style={styles.listItem}>
-                    <strong style={styles.strong}>Email:</strong>{" "}
-                    <a style={styles.link} href={`mailto:${data.contact.email}`}>
-                      {data.contact.email}
-                    </a>
-                  </li>
-                  <li style={styles.listItem}>
-                    <strong style={styles.strong}>Phone:</strong>{" "}
-                    <a style={styles.link} href={`tel:${data.contact.phone.replace(/\s/g, "")}`}>
-                      {data.contact.phone}
-                    </a>
-                  </li>
-                  <li style={styles.listItem}>
-                    <strong style={styles.strong}>Location:</strong> {data.contact.location}
-                  </li>
-                </ul>
-                <p style={styles.muted}>
-                  حط لينكات GitHub / LinkedIn الحقيقيين فوق في data.contact.
-                </p>
-              </Card>
-
-              <ContactCard />
-            </div>
-          </Section>
-
-          <footer style={styles.footer}>
-            <div style={styles.rowBetweenWrap}>
-              <p style={styles.footerText}>©️ {new Date().getFullYear()} {data.name}</p>
-              <p style={styles.mutedSmall}>Built with React • Fast • Free hosting-friendly</p>
-            </div>
-          </footer>
-        </div>
       </main>
     </div>
   );
 }
 
-function ContactCard() {
-  const [note, setNote] = useState("");
+// Helper styles
+const sectionHeaderStyle = (isMobile) => ({
+  fontSize: isMobile ? '1.75rem' : '2rem',
+  fontWeight: 700,
+  letterSpacing: '-0.5px',
+  marginBottom: '40px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '16px',
+  color: 'var(--text-primary)'
+});
 
-  function onSubmit(e) {
-    e.preventDefault();
-    setNote("Message prepared (demo). Hook it to Formspree / Netlify Forms to receive messages.");
-  }
-
-  return (
-    <Card>
-      <h3 style={styles.h3}>Quick message</h3>
-      <form onSubmit={onSubmit} style={styles.form}>
-        <label style={styles.label}>
-          Your Name
-          <input style={styles.input} required placeholder="e.g. Ahmed" />
-        </label>
-        <label style={styles.label}>
-          Your Email
-          <input style={styles.input} required type="email" placeholder="e.g. ahmed@mail.com" />
-        </label>
-        <label style={styles.label}>
-          Message
-          <textarea style={styles.textarea} required rows={4} placeholder="Write your message..." />
-        </label>
-        <Button type="submit">Send</Button>
-        {note ? <p style={styles.mutedSmall}>{note}</p> : null}
-      </form>
-    </Card>
-  );
-}
-
-const stylesVars = {
-  bg: "#0b0f17",
-  card: "#121a2a",
-  text: "#e7ecff",
-  muted: "#a8b3d6",
-  line: "rgba(255,255,255,.10)",
-  accent: "#7aa2ff",
-  shadow: "0 16px 40px rgba(0,0,0,.35)",
-  radius: 16,
-  max: 1100,
-};
-
-const styles = {
-  page: {
-    minHeight: "100vh",
-    color: stylesVars.text,
-    background:
-      "radial-gradient(1200px 600px at 20% 0%, rgba(122,162,255,.22), transparent 55%)," +
-      "radial-gradient(900px 500px at 80% 10%, rgba(122,162,255,.12), transparent 60%)," +
-      stylesVars.bg,
-    fontFamily:
-      'ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji"',
-  },
-  container: { maxWidth: stylesVars.max, margin: "0 auto", padding: "0 18px" },
-  header: {
-    position: "sticky",
-    top: 0,
-    zIndex: 50,
-    background: "rgba(11,15,23,.75)",
-    backdropFilter: "blur(10px)",
-    borderBottom: `1px solid ${stylesVars.line}`,
-  },
-  nav: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "14px 0", gap: 12 },
-  logo: { fontWeight: 800, letterSpacing: ".4px", fontSize: 20, textDecoration: "none", color: stylesVars.text },
-  navToggle: {
-    display: "none",
-    border: `1px solid ${stylesVars.line}`,
-    background: "transparent",
-    color: stylesVars.text,
-    borderRadius: 12,
-    padding: "10px 12px",
-    cursor: "pointer",
-  },
-  navLinks: { display: "flex", gap: 12, alignItems: "center" },
-  navLinksOpen: {},
-  navLink: {
-    color: stylesVars.muted,
-    padding: "10px 10px",
-    borderRadius: 12,
-    textDecoration: "none",
-  },
-  navCta: { display: "flex", gap: 10 },
-  main: { paddingBottom: 30 },
-  hero: { display: "grid", gridTemplateColumns: "1.6fr .9fr", gap: 22, padding: "44px 0 10px" },
-  profileImage: {
-    width: 120,
-    height: 120,
-    borderRadius: "50%",
-    objectFit: "cover",
-    border: `2px solid ${stylesVars.line}`,
-    marginBottom: 16,
-  },
-  pill: {
-    display: "inline-flex",
-    padding: "8px 12px",
-    border: `1px solid ${stylesVars.line}`,
-    borderRadius: 999,
-    color: stylesVars.muted,
-    background: "rgba(255,255,255,.04)",
-    margin: "0 0 14px",
-    width: "fit-content",
-  },
-  h1: { margin: "0 0 14px", fontSize: "clamp(30px, 4vw, 46px)", lineHeight: 1.12 },
-  h1Muted: { color: stylesVars.muted, fontWeight: 600 },
-  h2: { margin: "0 0 8px", fontSize: 26 },
-  h3: { margin: 0, fontSize: 18 },
-  lead: { color: stylesVars.muted, fontSize: 16, lineHeight: 1.7, margin: "0 0 18px" },
-  muted: { color: stylesVars.muted, margin: "10px 0 0" },
-  mutedSmall: { color: stylesVars.muted, fontSize: 13 },
-  dot: { color: stylesVars.muted, margin: "0 8px" },
-  heroActions: { display: "flex", gap: 12, margin: "18px 0" },
-  heroMeta: { display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center", margin: "10px 0 6px" },
-  meta: { color: stylesVars.muted, textDecoration: "none" },
-  heroLinks: { display: "flex", gap: 10, flexWrap: "wrap", marginTop: 12 },
-  section: { padding: "34px 0" },
-  sectionHead: { marginBottom: 14 },
-  card: {
-    background: "linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03))",
-    border: `1px solid ${stylesVars.line}`,
-    borderRadius: stylesVars.radius,
-    padding: 18,
-    boxShadow: stylesVars.shadow,
-  },
-  grid2: { display: "grid", gap: 16, gridTemplateColumns: "repeat(2, minmax(0, 1fr))" },
-  grid3: { display: "grid", gap: 16, gridTemplateColumns: "repeat(3, minmax(0, 1fr))" },
-  chips: { display: "flex", flexWrap: "wrap", gap: 10, marginTop: 10 },
-  chip: {
-    display: "inline-flex",
-    padding: "8px 10px",
-    borderRadius: 999,
-    border: `1px solid ${stylesVars.line}`,
-    background: "rgba(255,255,255,.04)",
-    color: stylesVars.muted,
-    fontSize: 13,
-  },
-  chipLink: {
-    display: "inline-flex",
-    padding: "8px 10px",
-    borderRadius: 999,
-    border: `1px solid ${stylesVars.line}`,
-    background: "rgba(255,255,255,.04)",
-    color: stylesVars.muted,
-    fontSize: 13,
-    textDecoration: "none",
-  },
-  btn: {
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "12px 14px",
-    borderRadius: 14,
-    border: "1px solid rgba(122,162,255,.45)",
-    background: "rgba(122,162,255,.18)",
-    color: stylesVars.text,
-    fontWeight: 700,
-    cursor: "pointer",
-    textDecoration: "none",
-    userSelect: "none",
-  },
-  btnGhost: {
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "12px 14px",
-    borderRadius: 14,
-    border: `1px solid ${stylesVars.line}`,
-    background: "rgba(255,255,255,.04)",
-    color: stylesVars.text,
-    fontWeight: 700,
-    cursor: "pointer",
-    textDecoration: "none",
-    userSelect: "none",
-  },
-  list: { margin: "12px 0 0", paddingLeft: 18, color: stylesVars.muted, lineHeight: 1.7 },
-  listItem: { marginBottom: 6 },
-  strong: { color: stylesVars.text },
-  p: { color: stylesVars.muted, lineHeight: 1.7, marginTop: 10 },
-  tag: {
-    fontSize: 12,
-    color: stylesVars.muted,
-    border: `1px solid ${stylesVars.line}`,
-    padding: "6px 10px",
-    borderRadius: 999,
-    background: "rgba(255,255,255,.04)",
-  },
-  rowBetween: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, flexWrap: "wrap" },
-  rowBetweenWrap: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" },
-  stack: { display: "flex", flexDirection: "column", gap: 16 },
-  timelineItem: { display: "grid", gridTemplateColumns: "20px 1fr", gap: 12, alignItems: "start" },
-  timelineDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 999,
-    background: "rgba(122,162,255,.8)",
-    marginTop: 18,
-    boxShadow: "0 0 0 6px rgba(122,162,255,.12)",
-  },
-  link: { color: stylesVars.accent, textDecoration: "none" },
-  footer: { borderTop: `1px solid ${stylesVars.line}`, padding: "18px 0", marginTop: 24 },
-  footerText: { margin: 0 },
-  form: { display: "grid", gap: 10, marginTop: 10 },
-  label: { display: "grid", gap: 6, color: stylesVars.muted, fontSize: 13 },
-  input: {
-    width: "100%",
-    padding: "12px 12px",
-    borderRadius: 12,
-    border: `1px solid ${stylesVars.line}`,
-    background: "rgba(0,0,0,.15)",
-    color: stylesVars.text,
-    outline: "none",
-  },
-  textarea: {
-    width: "100%",
-    padding: "12px 12px",
-    borderRadius: 12,
-    border: `1px solid ${stylesVars.line}`,
-    background: "rgba(0,0,0,.15)",
-    color: stylesVars.text,
-    outline: "none",
-    resize: "vertical",
-  },
+const btnStyle = (variant) => {
+  const base = {
+    display: 'inline-flex', alignItems: 'center', gap: '8px',
+    padding: '12px 24px', borderRadius: '12px',
+    fontSize: '0.95rem', fontWeight: 600,
+    textDecoration: 'none', transition: 'all 0.2s ease',
+    cursor: 'pointer'
+  };
+  
+  if(variant === 'primary') return {
+    ...base,
+    background: 'var(--text-primary)',
+    color: 'var(--bg-primary)',
+    border: '1px solid transparent'
+  };
+  if(variant === 'secondary') return {
+    ...base,
+    background: 'rgba(59, 130, 246, 0.1)',
+    color: 'var(--accent-color)',
+    border: '1px solid rgba(59, 130, 246, 0.2)'
+  };
+  return {
+    ...base,
+    background: 'transparent',
+    color: 'var(--text-secondary)',
+    border: '1px solid rgba(255,255,255,0.1)'
+  };
 };
